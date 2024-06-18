@@ -1,0 +1,59 @@
+## desafio 5
+
+n = int(input())
+matrices = []
+
+for n in range(0, n):
+    matrix = input()
+    matrices.append(matrix.split(','))
+
+# TODO: Create a function to calculate accuracy and precision metrics
+def calculate_metrics(VP, FP, FN, VN):
+  accuracy = (VP + VN) / (VP + FP + FN + VN) if (VP + FP + FN + VN) != 0 else 0
+  precision = VP / (VP + FP) if (VP + FP) != 0 else 0 
+  
+  return accuracy, precision 
+# TODO: Create a function to find the matrix index with the best combined accuracy and precision
+
+def best_performance(matrices):
+    best_index = 0
+    best_accuracy = 0
+    best_precision = 0
+    # TODO: Define Loop through each matrix to calculate metrics
+    for index, matrix in enumerate(matrices):
+        
+        matrix = [int(x) for x in matrix]
+        
+        VP = matrix[0]
+        FP = matrix[1]
+        FN = matrix[2]
+        VN = matrix[3]
+        
+        accuracy, precision = calculate_metrics(VP, FP, FN, VN)
+        
+        if (accuracy + precision) > (best_accuracy + best_precision):
+          best_index = index
+          best_accuracy = accuracy
+          best_precision = precision
+       
+       
+    return best_index, best_accuracy, best_precision
+    
+def format_metric(value):
+    
+    formatted_value = f"{value:.2f}"
+  
+    if formatted_value.endswith('00'):
+      formatted_value = formatted_value[:-1]
+    elif formatted_value.endswith('0'):
+      formatted_value = formatted_value[:-1]
+    return formatted_value
+  
+best_index, best_accuracy, best_precision = best_performance(matrices)
+index = best_index + 1
+
+print(f'Índice: {index}')
+print(f'Acurácia: {format_metric(best_accuracy)}')
+print(f'Precisão: {format_metric(best_precision)}')
+
+# Print the results
